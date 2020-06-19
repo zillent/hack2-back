@@ -25,7 +25,7 @@ SECRET_KEY = '496$$)##!e3%3cp6i8^x*1qgjiph60!sljut0a-ua%f&xagju7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # Сделано сознательно для тестовых целей
 
 
 # Application definition
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'v0'
 ]
 
 MIDDLEWARE = [
@@ -75,8 +77,12 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+	'ENGINE': 'django.db.backends.postgresql_psycopg2',
+	'NAME': 'hk_db',
+	'USER': 'hk_api',
+	'PASSWORD': 'Hack2API',
+	'HOST': 'box.zillent.ru',
+	'PORT': '5432',
     }
 }
 

@@ -18,7 +18,6 @@ RUN set -ex \
 
 ADD ./api /hack2_api/api
 ADD ./v0 /hack2_api/v0
-ADD ./static /hack2_api/static
 
 WORKDIR /hack2_api
 
