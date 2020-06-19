@@ -25,6 +25,6 @@ WORKDIR /hack2_api
 ENV VIRTUAL_ENV /env
 ENV PATH /env/bin:$PATH
 
-EXPOSE 8811
+EXPOSE 8822
 
-CMD ["gunicorn", "--bind", ":8811", "--workers", "3", "project.wsgi:application"]
+CMD ["gunicorn", "--bind", ":8822", "--workers", "3", "api.wsgi:application"]
