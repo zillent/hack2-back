@@ -53,7 +53,7 @@ class OfferAttr(models.Model):
      
 
 #7 Идея (справочник)
-class Offer(models.Model):]
+class Offer(models.Model):
     id = models.AutoField(primary_key=True)
     offer_type_name = models.CharField(verbose_name="Наименование (тип)", max_length=100, default=None, blank=True, null=True)
     detail = models.CharField(verbose_name="Описание", max_length=1000, default=None, blank=True, null=True)
