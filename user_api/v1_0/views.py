@@ -3,13 +3,12 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, SAFE_METHODS
-from v0.models import (
-    Log,
-    Offer, OfferTag, OfferComment
+from v1_0.models import (
+    Log, Person
 )
-from v0.serializers import (
+from v1_0.serializers import (
     LogSerializer,
-    OfferSerializer, OfferTagSerializer, OfferCommentSerializer
+    PersonSerializer,
 )
 
 from rest_framework.permissions import AllowAny
@@ -26,10 +25,3 @@ class LogView(ListCreateAPIView):
 #        author = get_object_or_404(Author, id=self.request.data.get('author_id'))
 #        return serializer.save(author=author)
 
-class OfferView(ListCreateAPIView):
-    queryset=Offer.objects.all()
-    serializer_class = OfferSerializer
-
-class SingleOfferView(RetrieveAPIView):
-    queryset = Offer.objects.all()
-    serializer_class = OfferSerializer
