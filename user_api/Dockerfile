@@ -17,7 +17,7 @@ RUN set -ex \
    && apk del .build-deps
 
 ADD ./user_api /hack2_api/user_api
-ADD ./v0 /hack2_api/v0
+ADD ./v1_0 /hack2_api/v1_0
 
 WORKDIR /hack2_api
 
