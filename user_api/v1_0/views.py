@@ -25,3 +25,11 @@ class LogView(ListCreateAPIView):
 #        author = get_object_or_404(Author, id=self.request.data.get('author_id'))
 #        return serializer.save(author=author)
 
+
+class PersonView(ListCreateAPIView):
+    queryset=Person.objects.all()
+    serializer_class = PersonSerializer
+
+class SinglePersonView(RetrieveAPIView):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
