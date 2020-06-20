@@ -2,45 +2,62 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
-
+#1 Логирование
 class Log(models.Model):
     create_duid = models.DateTimeField(auto_now_add=True)
     name = models.CharField(verbose_name='Наименование', max_length=300, default=None, blank=True, null=True)
     log_data = models.CharField(verbose_name='Информация', max_length=20000, default=None, blank=True, null=True)
 
-class Person(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(verbose_name="Аватар")
-    deartment = models.CharField(verbose_name='Отдел', max_length=200, default=None, blank=True, null=True)
-    position = models.CharField(verbose_name='Должность', max_length=200, default=None, blank=True, null=True)
+#6 Атрибут идеи (свойства)
+class OfferAttr(models.Model):
+    id = models.AutoField(primary_key=True)
+    prior_val =  models.IntegerField(verbose_name="Приоритет", default=None, blank=True, null=True)
+     
 
+#7 Идея (справочник)
 class Offer(models.Model):
-    offer_name = models.CharField(verbose_name="Наименование", max_length=1000, default=None, blank=True, null=True)
-    detail = models.CharField(verbose_name="Срок договора", max_length=100, default=None, blank=True, null=True)
+    id = models.AutoField(primary_key=True)
+    offer_type_name = models.CharField(verbose_name="Наименование (тип)", max_length=100, default=None, blank=True, null=True)
+    detail = models.CharField(verbose_name="Описание", max_length=1000, default=None, blank=True, null=True)
     avatar = models.ImageField(verbose_name="Аватар")
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    status = models.IntegerField(verbose_name="Статус", default=None, blank=True, null=True)
+    person_id = models.IntegerField(verbose_name="ИД пользователя", default=None, blank=True, null=True)
+    create_duid = models.DateTimeField(auto_now_add=True)
+    prior = models.ForeignKey(OfferAttr, on_delete=models.PROTECT, default=None, blank=True, null=True)
+
+#8 Теги идеи
+class OfferTag(models.Model):
+    id = models.AutoField(primary_key=True)
+    tag_name  = models.CharField(verbose_name="Наименование", max_length=100, default=None, blank=True, null=True)
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
+
+#9 Запущенные идеи (объект создан)
+class OfferRun(models.Model):
+    id = models.AutoField(primary_key=True)
+    type_offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
+    head = models.CharField(verbose_name="Заголовок", max_length=100, default=None, blank=True, null=True)
+    detail = models.CharField(verbose_name="Текст идеи", max_length=10000, default=None, blank=True, null=True)
+    attach = models.ImageField(verbose_name="Вложение") # TODO для  всех типов
+    tags =  models.ForeignKey(OfferTag, on_delete=models.PROTECT)
+    group_id = models.IntegerField(verbose_name="ИД группы", default=None, blank=True, null=True)
+    prior = models.ForeignKey(OfferAttr, on_delete=models.PROTECT)
+    vote_posit =  models.IntegerField(verbose_name="Голосование за", default=None, blank=True, null=True)
+    vote_negat = models.IntegerField(verbose_name="Голосование против", default=None, blank=True, null=True)
     create_duid = models.DateTimeField(auto_now_add=True)
 
-class OfferTag(models.Model):
-    tag_name  = models.CharField(verbose_name="Наименование", max_length=100, default=None, blank=True, null=True)
-    tag_value = models.CharField(verbose_name="Значение", max_length=100, default=None, blank=True, null=True)
-    offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
+#10 Закладки
+class OfferFavorite(models.Model):
+    id = models.AutoField(primary_key=True)
+    person_id =  models.IntegerField(verbose_name="ИД пользователя", default=None, blank=True, null=True)
+    offer_run =  models.ForeignKey(OfferRun, on_delete=models.CASCADE)
 
+
+#11 коммент к идеи
 class OfferComment(models.Model):
-    offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    offer = models.ForeignKey(Offer, on_delete=models.PROTECT)
+    person_id =  models.IntegerField(verbose_name="ИД пользователя", default=None, blank=True, null=True)
     text = models.CharField(verbose_name='Информация', max_length=20000, default=None, blank=True, null=True)
+    like =  models.IntegerField(verbose_name="Лайк", default=None, blank=True, null=True)
+    create_duid = models.DateTimeField(auto_now_add=True)
 
-
-
-# class Agent(models.Model):
-#     fname = models.CharField(verbose_name="ФИО", max_length=1000, default=None, blank=True, null=True)
-#     dogdate = models.DateTimeField(verbose_name="Дата договора",default=None, blank=True, null=True)
-#     dogdue = models.CharField(verbose_name="Срок договора", max_length=100, default=None, blank=True, null=True)
-#     inn = models.CharField(verbose_name="ИНН", max_length=100, default=None, blank=True, null=True)
-#     site = models.URLField(verbose_name="Веб-сайт", default=None, blank=True, null=True)
-#     atype = models.CharField(verbose_name="Тип агента", max_length=10, default=None, blank=True, null=True)
-
-# class AgentKind(models.Model):
-#     agent = models.ForeignKey(Agent, on_delete=models.CASCADE)
-#     kind = models.CharField(verbose_name="Вид страхования", max_length=5000, default=None, blank=True, null=True)
