@@ -19,7 +19,7 @@ class Offer(models.Model):
     id = models.AutoField(primary_key=True)
     offer_type_name = models.CharField(verbose_name="Наименование (тип)", max_length=100, default=None, blank=True, null=True)
     detail = models.CharField(verbose_name="Описание", max_length=1000, default=None, blank=True, null=True)
-    avatar = models.ImageField(verbose_name="Аватар")
+    avatar = models.ImageField(verbose_name="Аватар", default=None, blank=True, null=True)
     status = models.IntegerField(verbose_name="Статус", default=None, blank=True, null=True)
     person_id = models.IntegerField(verbose_name="ИД пользователя", default=None, blank=True, null=True)
     create_duid = models.DateTimeField(auto_now_add=True)
