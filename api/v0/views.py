@@ -27,7 +27,7 @@ class LogView(ListCreateAPIView):
 #        return serializer.save(author=author)
 
 class OfferView(ListCreateAPIView):
-    queryset=Offer.objects.all()
+    queryset=Offer.objects.all().order_by('-id')
     serializer_class = OfferSerializer
 
 class SingleOfferView(RetrieveAPIView):
